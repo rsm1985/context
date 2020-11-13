@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useMemo } from "react";
-import Input from "./components/Input";
-import List from "./components/List";
-import Context from "./context";
-import { filterTodo, changeTodo, addTodo } from "./hooks";
+import React, { useState } from "react";
+import Content from "./components/Content";
+import { TodoFunctions, TodoValues } from "./context";
+import { filterTodo, changeTodo, addNewTodo } from "./hooks";
 
 const todosList = [
   { id: 1, title: "Title 1", completed: false, notes: [] },
@@ -12,37 +11,26 @@ const todosList = [
 function App() {
   const [todos, setTodos] = useState(todosList);
   const [todoValue, setTodoValue] = useState("");
-
-  const addNewTodo = () => {
-    setTodos(addTodo(todos, todoValue));
-    setTodoValue("");
-  };
-
+  const changeTodoValue = (value) => setTodoValue(value);
   const changeTodoState = (id, state) => setTodos(changeTodo(todos, id, state));
   const removeTodo = (id) => setTodos(filterTodo(todos, id));
-  const addNote = (todoId, value) => {
-    const changedTodos = todos.slice();
-    changedTodos.forEach((todo) => {
-      if (todo.id === todoId) {
-        todo.notes = todo.notes.concat({
-          id: Math.floor(Math.random() * 1000),
-          value,
-        });
-      }
-    });
-    setTodos(changedTodos);
+  const addTodo = (value) => {
+    setTodos(addNewTodo(todos, value));
+    setTodoValue("");
   };
   return (
-    <Context.Provider value={{ todos, removeTodo, changeTodoState, addNote }}>
-      <div className="App" style={{ margin: "0 auto", width: 500 }}>
-        <Input
-          value={todoValue}
-          setTodoValue={setTodoValue}
-          addTodo={addNewTodo}
-        />
-        <List todos={todos} />
-      </div>
-    </Context.Provider>
+    <TodoFunctions.Provider
+      value={{ changeTodoValue, removeTodo, changeTodoState, addTodo }}
+    >
+      <TodoValues.Provider
+        value={{
+          todos,
+          todoValue,
+        }}
+      >
+        <Content />
+      </TodoValues.Provider>
+    </TodoFunctions.Provider>
   );
 }
 

@@ -9,7 +9,7 @@ export const changeTodo = (todosList, id, state) =>
     return t;
   });
 
-export const addTodo = (todos, value) =>
+export const addNewTodo = (todos, value) =>
   todos.concat({
     id: Math.floor(Math.random() * 1000),
     title: value,

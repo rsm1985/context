@@ -1,7 +1,9 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 import Todo from "./Todo";
-function List({ todos }) {
-  // console.log("todos", todos);
+import { TodoValues } from "./../context";
+
+function List() {
+  const { todos } = useContext(TodoValues);
   return (
     <div>
       {todos?.map((todo) => (
@@ -11,8 +13,4 @@ function List({ todos }) {
   );
 }
 
-export default memo(List, (prevProps, nextProps) => {
-  // evaluate whether the props have changed and if
-  // the component should update
-  return false;
-});
+export default memo(List);

@@ -1,9 +1,20 @@
-import React, { useState, useContext, memo } from "react";
-import Context from "../context";
+import React, { useCallback, useContext, memo } from "react";
+import { TodoFunctions } from "../context";
 function Todo({ todo }) {
-  const { id, title, completed, notes } = todo;
-  const [note, setNoteValue] = useState("");
-  const { removeTodo, changeTodoState, addNote } = useContext(Context);
+  const { id, title, completed } = todo;
+  const { removeTodo, changeTodoState } = useContext(TodoFunctions);
+  const memoChangeState = useCallback(
+    (id, completed) => {
+      changeTodoState(id, completed);
+    },
+    [changeTodoState]
+  );
+  const memoRemoveTodo = useCallback(
+    (id) => {
+      removeTodo(id);
+    },
+    [removeTodo]
+  );
   console.log("todo", todo.id);
   return (
     <div
@@ -12,7 +23,6 @@ function Todo({ todo }) {
         alignItems: "center",
         justifyContent: "space-between",
         marginTop: 20,
-        border: "1px solid red",
       }}
     >
       <div>
@@ -27,33 +37,15 @@ function Todo({ todo }) {
             type="checkbox"
             checked={completed}
             onChange={(e) => {
-              changeTodoState(id, e.target.checked);
+              memoChangeState(id, e.target.checked);
             }}
           />
           <div style={{ marginLeft: 20 }}>{title}</div>
         </div>
-        <div>
-          <div>
-            <input
-              type="text"
-              value={note}
-              onChange={(e) => setNoteValue(e.target.value)}
-            />
-            <button onClick={() => addNote(id, note)}>Add note</button>
-          </div>
-          Notes:
-          {notes.map((n) => (
-            <div key={n.id}>{n.value}</div>
-          ))}
-        </div>
       </div>
 
-      <div onClick={() => removeTodo(id)}>delete</div>
+      <div onClick={() => memoRemoveTodo(id)}>delete</div>
     </div>
   );
 }
-export default memo(Todo, (prevProps, nextProps) => {
-  // evaluate whether the props have changed and if
-  // the component should update
-  return false;
-});
+export default memo(Todo);

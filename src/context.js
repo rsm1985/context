@@ -1,4 +1,4 @@
 import React from "react";
 
-const Context = React.createContext();
-export default Context;
+export const TodoFunctions = React.createContext();
+export const TodoValues = React.createContext();
