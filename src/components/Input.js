@@ -1,10 +1,7 @@
-import React, { memo, useContext, useCallback } from "react";
-import { TodoFunctions, TodoValues } from "./../context";
+import React, { memo, useCallback } from "react";
 import Button from "./Button";
 
-function Input() {
-  const { changeTodoValue, addTodo } = useContext(TodoFunctions);
-  const { todoValue } = useContext(TodoValues);
+function Input({ todoValue, changeTodoValue, addTodo }) {
   const memoChangeTodoValue = useCallback(
     (value) => {
       changeTodoValue(value);

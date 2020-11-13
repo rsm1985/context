@@ -1,8 +1,5 @@
-import React, { useCallback, useContext, memo } from "react";
-import { TodoFunctions } from "../context";
-function Todo({ todo }) {
-  const { id, title, completed } = todo;
-  const { removeTodo, changeTodoState } = useContext(TodoFunctions);
+import React, { useCallback, memo } from "react";
+function Todo({ todo: { id, title, completed }, removeTodo, changeTodoState }) {
   const memoChangeState = useCallback(
     (id, completed) => {
       changeTodoState(id, completed);
@@ -15,7 +12,7 @@ function Todo({ todo }) {
     },
     [removeTodo]
   );
-  console.log("todo", todo.id);
+  console.log("todo", id);
   return (
     <div
       style={{

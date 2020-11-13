@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Content from "./components/Content";
-import { TodoFunctions, TodoValues } from "./context";
 import { filterTodo, changeTodo, addNewTodo } from "./hooks";
+import Input from "./components/Input";
+import List from "./components/List";
 
 const todosList = [
   { id: 1, title: "Title 1", completed: false, notes: [] },
@@ -19,18 +19,30 @@ function App() {
     setTodoValue("");
   };
   return (
-    <TodoFunctions.Provider
-      value={{ changeTodoValue, removeTodo, changeTodoState, addTodo }}
-    >
-      <TodoValues.Provider
-        value={{
-          todos,
-          todoValue,
-        }}
-      >
-        <Content />
-      </TodoValues.Provider>
-    </TodoFunctions.Provider>
+    <div className="App" style={{ margin: "0 auto", width: 500 }}>
+      <Input
+        todoValue={todoValue}
+        changeTodoValue={changeTodoValue}
+        addTodo={addTodo}
+      />
+      <List
+        todos={todos}
+        changeTodoState={changeTodoState}
+        removeTodo={removeTodo}
+      />
+    </div>
+    // <TodoFunctions.Provider
+    //   value={{ changeTodoValue, removeTodo, changeTodoState, addTodo }}
+    // >
+    //   <TodoValues.Provider
+    //     value={{
+    //       todos,
+    //       todoValue,
+    //     }}
+    //   >
+    //     <Content />
+    //   </TodoValues.Provider>
+    // </TodoFunctions.Provider>
   );
 }
 

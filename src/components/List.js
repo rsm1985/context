@@ -1,13 +1,11 @@
-import React, { memo, useContext } from "react";
+import React, { memo } from "react";
 import Todo from "./Todo";
-import { TodoValues } from "./../context";
 
-function List() {
-  const { todos } = useContext(TodoValues);
+function List({ todos, changeTodoState }) {
   return (
     <div>
       {todos?.map((todo) => (
-        <Todo todo={todo} key={todo.id} />
+        <Todo todo={todo} key={todo.id} changeTodoState={changeTodoState} />
       ))}
     </div>
   );
